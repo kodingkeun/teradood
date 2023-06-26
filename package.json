@@ -1,0 +1,28 @@
+{
+  "name": "@kodingkeun/teradood",
+  "version": "1.0.0",
+  "description": "Terabox and doods downloader",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kodingkeun/teradood.git"
+  },
+  "author": "kodingkeun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kodingkeun/teradood/issues"
+  },
+  "homepage": "https://github.com/kodingkeun/teradood#readme",
+  "dependencies": {
+    "axios": "^1.4.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
