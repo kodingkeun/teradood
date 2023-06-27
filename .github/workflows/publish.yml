@@ -3,7 +3,7 @@ name: publish Node.js Package
 on:
   push:
     branches:
-      - main
+      - package
 
 jobs:
   publish-gpr:

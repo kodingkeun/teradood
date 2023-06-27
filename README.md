@@ -7,7 +7,7 @@ This library was originally a project for **Terabox & Doodstream Direct Link [he
 ## Install
 Use the stable version:
 ```
-yarn add @kodingkeun/teradood   
+yarn add @kodingkeundev/teradood   
 ```
 
 ## Example Usage
@@ -15,7 +15,7 @@ yarn add @kodingkeun/teradood
 - Example Doodstream Downloader
 
     ```js
-    const { TeraDood } = require('@kodingkeun/teradood')
+    const { TeraDood } = require('@kodingkeundev/teradood')
 
     var url = 'xxx'
 
@@ -34,7 +34,7 @@ yarn add @kodingkeun/teradood
 - Example Terabox Downloader
 
     ```js
-    const { TeraDood } = require('@kodingkeun/teradood')
+    const { TeraDood } = require('@kodingkeundev/teradood')
 
     var url = 'xxx'
     TeraDood.terabox(url)
