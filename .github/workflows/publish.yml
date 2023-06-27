@@ -23,44 +23,15 @@ jobs:
       uses: actions/setup-node@v3.6.0
       with:
         node-version: 18.x
-        registry-url: "https://registry.npmjs.org"
+        registry-url: https://npm.pkg.github.com/
+        scope: '@kodingkeun'
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-    - uses: actions/cache@v3
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-
     - name: Install Dependencies
       run: yarn
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - name: Publish in NPM
-      run: npm publish --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - name: Make Package
-      run: npm pack
-
-    - name: Rename Pack
-      run: mv *.tgz teradood.tgz
-
-    - name: Setup Node for Github Package
-      uses: actions/setup-node@v3.6.0
-      with:
-        node-version: 18.x
-        registry-url: https://npm.pkg.github.com/
-        scope: '@kodingkeun'
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Publish in Github Package
       run: yarn version --minor && git push --tags && git push && yarn publish
