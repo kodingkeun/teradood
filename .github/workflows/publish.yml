@@ -9,58 +9,60 @@ jobs:
   publish-gpr:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
- 
-      - name: Setup GIT
-      - run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup GIT
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    
+    - name: Setup Node
+      uses: actions/setup-node@v3.6.0
+      with:
+        node-version: 18.x
+        registry-url: "https://registry.npmjs.org"
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       
-      - name: Setup Node
-        uses: actions/setup-node@v3.6.0
-        with:
-          node-version: 18.x
-          registry-url: "https://registry.npmjs.org"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+    - uses: actions/cache@v3
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
 
-      - name: Install Dependencies
-        run: yarn
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Install Dependencies
+      run: yarn
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish in NPM
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Publish in NPM
+      run: npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Make Package
-        run: npm pack
+    - name: Make Package
+      run: npm pack
 
-      - name: Rename Pack
-        run: mv *.tgz teradood.tgz
+    - name: Rename Pack
+      run: mv *.tgz teradood.tgz
 
-      - name: Publish in Github Package
-        uses: actions/setup-node@v3.6.0
-        with:
-          node-version: 18.x
-          registry-url: https://npm.pkg.github.com/
-          scope: '@kodingkeun'
-        run: yarn version --minor && git push --tags && git push && yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup Node for Github Package
+      uses: actions/setup-node@v3.6.0
+      with:
+        node-version: 18.x
+        registry-url: https://npm.pkg.github.com/
+        scope: '@kodingkeun'
+
+    - name: Publish in Github Package
+      run: yarn version --minor && git push --tags && git push && yarn publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
