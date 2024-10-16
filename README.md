@@ -1,5 +1,7 @@
 # teradood
 
+> API nya mokad ges, paling nanti bikin repo baru<br/>
+> Join komunitas kita di [Kodingkeun Community](https://chat.whatsapp.com/EYFEEBypCSEJ26m77aUd7V)
 ### Important Note
 
 This library was originally a project for **Terabox & Doodstream Direct Link [here](https://teradood.hunternblz.com)**
